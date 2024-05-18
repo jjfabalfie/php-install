@@ -3,7 +3,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 9999:80
+      - [EXPOSED PORT]:80
     volumes:
       - ./src:/var/www/html
       - ./default.conf:/etc/nginx/conf.d/default.conf
@@ -22,25 +22,12 @@ services:
     volumes:
       - ./data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "bqY9pNv*33f"
-      MYSQL_DATABASE: "mariadb"
+      MYSQL_ROOT_PASSWORD: [MYSQL ROOT PASSWORD]
+      MYSQL_DATABASE: [MYSQL DATABASE NAME]
     ports:
       - 3306:3306
     networks:
       - database
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    networks:
-      - database
-    environment:
-      PMA_HOST: "172.19.0.2"
-      PMA_PORT: "3306"
-      PMA_ARBITRARY: "1"
-    restart: unless-stopped
-    ports:
-      - 8081:80
-
 networks:
   database:
     driver: bridge
