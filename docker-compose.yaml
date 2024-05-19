@@ -4,30 +4,33 @@ services:
     image: nginx:latest
     ports:
       - [EXPOSED PORT]:80
+    container_name: [NGINX CONTAINER NAME]
     volumes:
       - ./src:/var/www/html
       - ./default.conf:/etc/nginx/conf.d/default.conf
     links:
       - php-fpm
   php-fpm:
+  container_name: [PHP CONTAINER NAME]
     build:
       context: .
       dockerfile: php.Dockerfile
     volumes:
       - ./src:/var/www/html
-  db:
-    image: mariadb:10.6
-    container_name: maria
-    restart: unless-stopped
-    volumes:
-      - ./data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: [MYSQL ROOT PASSWORD]
-      MYSQL_DATABASE: [MYSQL DATABASE NAME]
-    ports:
-      - 3306:3306
-    networks:
-      - database
+
+#  db:
+#    image: mariadb:10.6
+#    container_name: maria
+#    restart: unless-stopped
+#    volumes:
+#      - ./data:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: [MYSQL ROOT PASSWORD]
+#      MYSQL_DATABASE: [MYSQL DATABASE NAME]
+#    ports:
+#      - 3306:3306
+#    networks:
+#      - database
 networks:
   database:
     driver: bridge
